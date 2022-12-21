@@ -1,0 +1,26 @@
+import requests
+
+def get_subject(book_name):
+    query_book = book_name.lower()
+    query_book = query_book.replace(' ','+')
+    resp = requests.get(f"https://openlibrary.org/search.json?title={query_book}")
+    info = resp.json()
+    #print(info.keys())
+    subjects = info['docs'][0]['subject']
+    return subjects
+
+book1 = input()
+book2 = input()
+subj1 = get_subject(book1)
+subj2 = get_subject(book2)
+
+s1 = set(subj1)
+s2 = set(subj2)
+
+common = s1 & s2
+common = list(common)
+common.sort()
+print('Common subjects are:', end=' ')
+for subject in common:
+   print(subject, end=' ')
+print()
